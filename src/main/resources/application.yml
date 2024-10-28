@@ -1,0 +1,41 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: Postgres
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master-cleverdev.yaml
+
+server:
+  port: 9090
+  error:
+    include-binding-errors: always
+    include-message: always
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: =/swagger-ui
+    disable-swagger-default-url: true
+    display-operation-id: true
+    display-request-duration: true
+    show-common-extensions: true
+    show-extensions: true
+
+app:
+  urlClients: http://localhost:8081/clients
+  urlNotes: http://localhost:8081/notes
+  importData:
+    dateFrom: 1000-10-11
+    dateTo: 3000-12-11
