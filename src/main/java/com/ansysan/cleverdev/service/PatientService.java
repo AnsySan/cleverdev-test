@@ -19,28 +19,33 @@ public class PatientService {
     private final PatientMapper patientMapper;
 
     public Patient findById(long id) {
+        log.debug("Find patient by id: {}", id);
         return patientRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Patient with id %s not found", id)));
     }
 
     public PatientDto save(PatientDto patientDto) {
+        log.debug("Saving patient {}", patientDto);
         Patient patient = patientMapper.toEntity(patientDto);
         patient = patientRepository.save(patient);
         return patientMapper.toDto(patient);
     }
 
     public PatientDto delete(Long id) {
+        log.debug("Deleting patient {}", id);
         Patient patient = findById(id);
         patientRepository.deleteById(id);
         return patientMapper.toDto(patient);
     }
 
     public PatientDto getPatient(Long id) {
+        log.debug("Getting patient {}", id);
         Patient patient = findById(id);
         return patientMapper.toDto(patient);
     }
 
     public Patient pathPatient(PatientDto patientDto, String guid) {
+        log.debug("Pathing patient {}", patientDto);
         Patient patient = patientRepository.findByOldClientGuid(guid);
         patient.setFirstname(patientDto.getFirstName());
         patient.setLastname(patientDto.getLastName());

@@ -35,6 +35,7 @@ public class ImportFromOldSystemService {
     private String dateTo;
 
     public JSONArray getJsonObjFromOldSystem(String urlClient) {
+        log.debug("get json from old system");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<JSONObject> entity = new HttpEntity<>(headers);
@@ -44,10 +45,12 @@ public class ImportFromOldSystemService {
     }
 
     public List<Patient> getPatientFromRepository() {
+        log.debug("Get patient from repository");
         return patientRepository.findAll();
     }
 
     public void getPatientWithStatusActive(Patient patient, JSONArray objectFromOldSystem) {
+        log.debug("Get patient with patient status");
         if (PatientStatus.ACTIVE == (patient.getStatusId())) {
             String[] listGuid = patient.getOldClientGuid().split(",");
             for (String guid : listGuid) {
@@ -81,6 +84,7 @@ public class ImportFromOldSystemService {
 
 
     public String importFromOldSystem(JSONArray getObjFromOldSystem) {
+        log.debug("Import from old system");
         for (Patient patient : getPatientFromRepository()) {
             getPatientWithStatusActive(patient, getObjFromOldSystem);
         }

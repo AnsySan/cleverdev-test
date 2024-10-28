@@ -30,12 +30,14 @@ public class NoteService {
     private final UserRepository userRepository;
 
     public NoteDto createNote(NoteDto noteDto) {
+        log.debug("Create note");
         Note note = noteMapper.toEntity(noteDto);
         note = noteRepository.save(note);
         return noteMapper.toDto(note);
     }
 
     public NoteDto publishNote(long noteId) {
+        log.debug("Publish note");
         Note note = existsNote(noteId);
         note.setCreatedDateTime(LocalDateTime.now());
         note = noteRepository.save(note);
@@ -43,6 +45,7 @@ public class NoteService {
     }
 
     public NoteDto updateNote(long noteId, NoteDto noteDto) {
+        log.debug("Update note");
         Note note = existsNote(noteId);
 
         note = noteRepository.save(note);
@@ -50,12 +53,14 @@ public class NoteService {
     }
 
     public NoteDto deleteNote(long noteId) {
+        log.debug("Delete note");
         Note note = existsNote(noteId);
         noteRepository.deleteById(noteId);
         return noteMapper.toDto(note);
     }
 
     public Map<Long, String> showNotes(String login) {
+        log.debug("Show notes");
         User user = userRepository.findByLogin(login);
         List<Note> list = user.getListNoteForUserCreated();
         Map<Long, String> map = new HashMap<>();
@@ -68,6 +73,7 @@ public class NoteService {
     public Note createdNoteFromOldSystem(Patient findIdPatientForWriteForNoteEntity,
                                          User findIdUserForWriteUserEntity,
                                          Map jsonNoteKey) {
+        log.debug("Saving user from old version");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.systemDefault());
         NoteDto noteDto;
 
@@ -100,7 +106,8 @@ public class NoteService {
         return noteMapper.toEntity(noteDto);
     }
 
-    Note existsNote(Long noteId) {
+   public Note existsNote(Long noteId) {
+        log.debug("Exists note");
         return noteRepository.findById(noteId)
                 .orElseThrow(() -> new DataValidationException("Note with ID " + noteId + " not found"));
     }

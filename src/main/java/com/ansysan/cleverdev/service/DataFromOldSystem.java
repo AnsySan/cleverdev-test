@@ -8,6 +8,7 @@ import com.ansysan.cleverdev.repository.UserRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Getter
 @Setter
+@Slf4j
 public class DataFromOldSystem {
 
     private final UserRepository userRepository;
@@ -27,6 +29,7 @@ public class DataFromOldSystem {
     private long countNote;
 
     public Long saveNoteInDB(JSONArray responseDetailsNotes, Patient patient) {
+        log.info("Save note in db");
 
         for (Object it : responseDetailsNotes) {
 
